@@ -1,7 +1,7 @@
 const chai = require('chai');
 const { expect } = chai;
 
-const { app } = require('../src/server')
+const { app } = require('../../src/server')
 
 describe('testing server.js', () => {
     it('GET/', async () => {
