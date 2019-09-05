@@ -63,6 +63,7 @@ it('POST /login: allows users to login', async () => {
   this.token = response.body.token;
   const user = jwt.verify(this.token, process.env.JWT_TOKEN);
   expect(user.username).to.equal('testUser')
+  expect(user.t)
 })
 
 it('POST /login: doesnt allow nonexistant users to login', async () => {
@@ -76,6 +77,7 @@ it('POST /login: doesnt allow nonexistant users to login', async () => {
   // console.log(response)
   expect(response.status).to.equal(403);
 })
+
 it('POST /login: doesnt allow incorrect passwords', async() => {
   const response = await chai 
   .request(app)
@@ -85,6 +87,5 @@ it('POST /login: doesnt allow incorrect passwords', async() => {
     password: 'wrongPASSWORD',
 })
   expect(response.status).to.equal(403);
-
 })
 });

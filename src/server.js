@@ -4,7 +4,7 @@ const morgan = require('morgan');
 const mongoose = require('mongoose');
 
 const UserController = require('./controllers/user.controller');
-
+const BookController = require('./controllers/book.controller');
 app = express();
 
 app.use(cors());
@@ -14,6 +14,7 @@ app.use(express.json());
 if (process.env.ENV !== 'test') this.app.use(morgan('tiny'));
 
 app.use('/user', UserController);
+app.use('/book', BookController )
 
 app.get('/', (req, res) => {
   res.send('hello, CRUEL WORLD').status(200);

@@ -1,17 +1,23 @@
 const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
+const { ObjectId } = mongoose.Schema.Types;
 
-const userSchema = Schema(
+const bookSchema = Schema(
   {
-    username: {
+    usertitlename: {
       type: String,
       required: true,
       unique: true
     },
-    password: {
+    author: {
       type: String,
       required: true
+    },
+    user: {
+        ref: "User",
+        type: ObjectId,
+        required: false,
     }
   },
   {
@@ -22,12 +28,5 @@ const userSchema = Schema(
   }
 );
 
-userSchema.virtual("books", {
-  ref: "Book",
-  localField: "_id",
-  foreignField: "user",
-  justOne: false,
-})
-
-const User = mongoose.model('User', userSchema);
-module.exports = User;
+const Book = mongoose.model('Book', bookSchema);
+module.exports = Book;
