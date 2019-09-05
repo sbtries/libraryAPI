@@ -24,9 +24,8 @@ describe('book.controller.js', () => {
     expect(response.body).to.be.a('array');
   });
 
-  a_book = Book.find();
-
   it('GET /book/:_id: return a book by its id', async () => {
+    a_book = await Book.findOne({title: 'moo in the field of green'});
     const response = await chai.request(app).get(`/book/${a_book._id}`);
     expect(response.status).to.eq(200);
     expect(response.body).to.be.a('object');
