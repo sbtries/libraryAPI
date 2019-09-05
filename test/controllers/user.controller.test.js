@@ -59,8 +59,6 @@ it('POST /login: allows users to login', async () => {
       username: 'testUser',
       password: 'password123',
   })
-  console.log('SDFLJSDFJHFDOUHEJ')
-  console.log(response.body)
   expect(response.status).to.equal(200);
   this.token = response.body.token;
   const user = jwt.verify(this.token, process.env.JWT_TOKEN);
