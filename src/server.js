@@ -7,7 +7,7 @@ const UserController = require('./controllers/user.controller');
 
 app = express();
 
-app.use(cors);
+app.use(cors());
 app.use(express.json());
 
 /* istanbul ignore next */

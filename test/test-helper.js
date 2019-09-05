@@ -9,13 +9,13 @@ const { connectDatabase } = require('../src/server');
 
 chai.use(chaiHttp);
 
-// setTimeout(() => {
-//   before(async () => {
-//     await connectDatabase('library-test');
-//   });
+setTimeout(() => {
+  before(async () => {
+    await connectDatabase('library-test');
+  });
 
-//   after(async () => {
-//     await mongoose.connection.dropDatabase();
-//     await mongoose.connection.close();
-//   });
-// });
+  after(async () => {
+    await mongoose.connection.dropDatabase();
+    await mongoose.connection.close();
+  });
+});

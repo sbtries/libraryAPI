@@ -8,7 +8,7 @@ describe('user.controller.js', () => {
   it('POST /signup: allows valid users to sign up', async () => {
     const response = await chai
       .request(app)
-      .post('/sign-up')
+      .post('/user/sign-up')
       .send({
         username: 'testUser',
         password: 'password123',
@@ -20,12 +20,12 @@ describe('user.controller.js', () => {
   it('POST /signup: doesnt allow duplicate usernames to sign up', async () => {
     const response = await chai
       .request(app)
-      .post('/sign-up')
+      .post('/user/sign-up')
       .send({
         username: 'testUser',
         password: 'passwordalso',
         passwordCheck: 'passworldalso'
       });
-    expect(response.status).to.equal(400);
+    expect(response.status).to.equal(422);
   });
 });
