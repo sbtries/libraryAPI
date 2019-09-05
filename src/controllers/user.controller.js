@@ -7,7 +7,7 @@ const User = require('../models/User');
 
 const controller = AsyncRouter();
 
-const singUpValidators = [
+const signUpValidators = [
   check('username')
     .exists()
     .isLength({ min: 3, max: 32 }),
@@ -33,7 +33,7 @@ const sanitizeUser = user => ({
   password: undefined
 });
 
-controller.post('/sign-up', [...singUpValidators], async (req, res) => {
+controller.post('/sign-up', [...signUpValidators], async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(422).send({ errors: errors.array() });

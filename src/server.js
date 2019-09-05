@@ -3,16 +3,17 @@ const cors = require('cors');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
 
-const AuthController = require('./controllers/user.controller');
+const UserController = require('./controllers/user.controller');
 
 app = express();
 
 app.use(cors);
 app.use(express.json());
+
 /* istanbul ignore next */
 if (process.env.ENV !== 'test') this.app.use(morgan('tiny'));
 
-app.use('/auth', AuthController);
+app.use('/user', UserController);
 
 app.get('/', (req, res) => {
   res.send('hello, CRUEL WORLD').status(200);
@@ -27,6 +28,7 @@ const connectDatabase = async databaseName => {
 
     /* istanbul ignore next */
     if (process.env.ENV !== 'test') console.log(`Connected to database '${databaseName}'...`);
+
     return connection;
   } catch (error) {
     /* istanbul ignore next */
