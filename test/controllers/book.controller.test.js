@@ -33,6 +33,7 @@ describe('book.controller.js', () => {
   });
 
   it('PATCH /book/:_id: update a book by its id', async () => {
+    const a_book = await Book.findOne({title: 'moo in the field of green'});
     const response = await chai
       .request(app)
       .patch(`/book/${a_book._id}`)
@@ -44,7 +45,8 @@ describe('book.controller.js', () => {
   });
 
   it('DELETE /book/:_id: delete a book by its id', async () => {
-    const response = await chai.request(app).get(`/book/${a_book._id}`);
+    const a_book = await Book.findOne({title: 'blargleflargle'});
+    const response = await chai.request(app).delete(`/book/${a_book._id}`);
     expect(response.status).to.eq(200);
     expect(response.body).to.be.a('object');
   });
