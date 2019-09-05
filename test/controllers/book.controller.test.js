@@ -3,6 +3,7 @@ const { expect } = chai;
 const jwt = require('jsonwebtoken');
 
 const { app } = require('../../src/server');
+const Book = require('../../src/models/Book');
 
 describe('book.controller.js', () => {
   it('POST /book: create a book record', async () => {
@@ -14,6 +15,37 @@ describe('book.controller.js', () => {
         author: 'lyra, moo'
       });
     expect(response.status).to.eq(201);
+    expect(response.body).to.be.a('object');
+  });
+
+  it('GET /book: return a list of books', async () => {
+    const response = await chai.request(app).get('/book');
+    expect(response.status).to.eq(200);
+    expect(response.body).to.be.a('array');
+  });
+
+  a_book = Book.find();
+
+  it('GET /book/:_id: return a book by its id', async () => {
+    const response = await chai.request(app).get(`/book/${a_book._id}`);
+    expect(response.status).to.eq(200);
+    expect(response.body).to.be.a('object');
+  });
+
+  it('PATCH /book/:_id: update a book by its id', async () => {
+    const response = await chai
+      .request(app)
+      .get(`/book/${a_book._id}`)
+      .send({
+        title: 'blargleflargle'
+      });
+    expect(response.status).to.eq(200);
+    expect(response.body).to.be.a('object');
+  });
+
+  it('DELETE /book/:_id: delete a book by its id', async () => {
+    const response = await chai.request(app).get(`/book/${a_book._id}`);
+    expect(response.status).to.eq(200);
     expect(response.body).to.be.a('object');
   });
 });
