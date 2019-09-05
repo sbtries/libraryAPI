@@ -28,4 +28,26 @@ describe('user.controller.js', () => {
       });
     expect(response.status).to.equal(422);
   });
+
+  it('POST /signup: doesnt allow nonmatching passwords', async () => {
+    const response = await chai 
+    .request(app)
+    .post('/user/sign-up')
+    .send({
+      username: 'testUser2',
+      password: 'passWord',
+      passwordCheck: 'Wordpass'
+    })
+    expect(response.status).to.equal(422);
+  })
+
+  it('POST /signup: doesnt allow invalid users', async () => {
+    const response = await chai 
+    .request(app)
+    .post('/user/sign-up')
+    .send({
+      username: 'testUser3'
+    })
+    expect(response.status).to.equal(422);
+  })
 });
