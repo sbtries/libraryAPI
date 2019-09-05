@@ -50,4 +50,43 @@ describe('user.controller.js', () => {
     })
     expect(response.status).to.equal(422);
   })
+
+it('POST /login: allows users to login', async () => {
+  const response = await chai 
+    .request(app)
+    .post('/user/login')
+    .send({
+      username: 'testUser',
+      password: 'password123',
+  })
+  console.log('SDFLJSDFJHFDOUHEJ')
+  console.log(response.body)
+  expect(response.status).to.equal(200);
+  this.token = response.body.token;
+  const user = jwt.verify(this.token, process.env.JWT_TOKEN);
+  expect(user.username).to.equal('testUser')
+})
+
+it('POST /login: doesnt allow nonexistant users to login', async () => {
+  const response = await chai 
+  .request(app)
+  .post('/user/login')
+  .send({
+    username: 'notaUser',
+    password: 'doesntmatter',
+})
+  // console.log(response)
+  expect(response.status).to.equal(403);
+})
+it('POST /login: doesnt allow incorrect passwords', async() => {
+  const response = await chai 
+  .request(app)
+  .post('/user/login')
+  .send({
+    username: 'testUser',
+    password: 'wrongPASSWORD',
+})
+  expect(response.status).to.equal(403);
+
+})
 });

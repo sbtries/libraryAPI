@@ -61,18 +61,19 @@ controller.post('/sign-up', [...signUpValidators], async (req, res) => {
 
 controller.post('/login', [...loginValidators], async (req, res) => {
   const { username, password } = req.body;
-
+  console.log(req.body)
   const user = await User.findOne({ username });
   if (!user) return res.sendStatus(403);
-
+  console.log(user)
   const correctPassword = bcrypt.compareSync(password, user.password);
   if (!correctPassword) return res.sendStatus(403);
+  console.log(`THIS IS THE CORRECT PASS ${ correctPassword } `)
 
   const token = jwt.sign(sanitizeUser(user), process.env.JWT_TOKEN, {
     expiresIn: '7 days'
   });
-
   res.status(200).send({ token });
+  console.log(token)
 });
 
 module.exports = controller;
