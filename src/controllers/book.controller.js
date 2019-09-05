@@ -12,19 +12,18 @@ controller.post('/', async (req, res) => {
     const book = new Book(req.body);
     await book.save();
     res.status(201).send(book);
-    console.log(book)
 })
 
 //list
 controller.get('/', async (req, res) => {
     const books = await Book.find();
+    // console.log(books)
     res.status(200).send(books);
 })
 
 //retrieve
 controller.get('/:_id', async (req, res) => {
     const book = await Book.findOne({ _id: req.params._id });
-    console.log(book.title)
     if(!book) return res.sendStatus(404);
     res.send(book);
 
