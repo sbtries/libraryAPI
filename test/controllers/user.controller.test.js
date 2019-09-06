@@ -13,7 +13,7 @@ const validUser = {
 const signUpUser = async (user=validUser) => {
   return await chai
     .request(app)
-    .post("/user/signup")
+    .post("/user/sign-up")
     .send(user)
 }
 

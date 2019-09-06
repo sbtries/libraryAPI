@@ -10,7 +10,6 @@ describe('book.controller.js', () => {
   before(async function() {
     const response = await signUpUser();
     this.token = await getToken();
-    console.log(this.token)
     this.user = jwt.verify(this.token, process.env.JWT_SECRET);
   });
 
