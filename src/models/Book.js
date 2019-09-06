@@ -14,12 +14,17 @@ const bookSchema = Schema(
       type: String,
       required: true
     },
+    availability: {
+      type: Boolean, 
+      default: true
+    },
     user: {
         ref: "User",
         type: ObjectId,
         required: false,
     }
   },
+  
   {
     timestamps: true,
     toJSON: {

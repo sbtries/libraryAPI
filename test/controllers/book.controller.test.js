@@ -91,9 +91,17 @@ describe('book.controller.js', () => {
     });
     expect(response.status).to.eq(401); 
   })
-  
-  it('PATCH /book/:id: returns book a user', async function(){
 
+  it('PATCH /book/:id: returns a book', async function(){
+    const a_book = await Book.findOne({title: 'blargleflargle'});
+    const response = await chai
+    .request(app)
+    .patch(`/book/${a_book._id}`)
+    .set("Authorization", `Bearer ${this.token}`)
+    .send({
+
+    });
+    expect(response.status).to.eq(401); 
   })
   it('')
 });
