@@ -1,11 +1,18 @@
 const chai = require('chai');
 const { expect } = chai;
 const jwt = require('jsonwebtoken');
+const { getToken, signUpUser, validUser } = require("./user.controller.test");
 
 const { app } = require('../../src/server');
 const Book = require('../../src/models/Book');
 
 describe('book.controller.js', () => {
+  // before(async function() {
+    
+  //   this.token = await getToken();
+  //   this.user = jwt.verify(this.token, process.env.JWT_SECRET);
+  // });
+
   it('POST /book: create a book record', async () => {
     const response = await chai
       .request(app)
@@ -20,7 +27,6 @@ describe('book.controller.js', () => {
 
   it('GET /book: return a list of books', async () => {
     const response = await chai.request(app).get('/book');
-    // console.log(request.body)
     expect(response.status).to.eq(200);
     // expect(response.body).to.be.a('array');
   });
@@ -50,4 +56,24 @@ describe('book.controller.js', () => {
     expect(response.status).to.eq(200);
     expect(response.body).to.be.a('object');
   });
+
+  it('PATCH /book/:_id: checks out a book to a user', async function () {
+    const a_book = await Book.findOne({title: 'blargleflargle'});
+    const response = await chai
+    .request(app)
+    .patch(`/book/${a_book._id}`)
+    .send({
+      user: this.user
+    });
+    expect(response.status).to.eq(200);
+  })
+  it('PATCH /book/:id: does not allow checked out books to be checked out', async function (){
+
+  })
+  it('PATCH /book/:id: does not allow nonusers to check out books', async function(){
+
+  })
+  it('PATCH /book/:id: returns book to a user', async function(){
+    
+  })
 });

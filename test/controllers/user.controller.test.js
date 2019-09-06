@@ -4,6 +4,35 @@ const jwt = require('jsonwebtoken');
 
 const { app } = require('../../src/server');
 
+const validUser = {
+  username: "testUser",
+  password: "password123",
+  passwordConfirm: "password123"
+}
+
+const signUpUser = async (user=validUser) => {
+  return await chai
+    .request(app)
+    .post("/auth/sign-up")
+    .send(user)
+}
+
+const loginUser = async (user=validUser) => {
+  return await chai
+    .request(app)
+    .post("/auth/login")
+    .send({
+      ...user,
+      passwordConfirm: undefined
+    })
+}
+
+const getToken = async (user=validUser) => {
+  const res = await loginUser(user);
+  return res.body.token;
+}
+
+
 describe('user.controller.js', () => {
   it('POST /signup: allows valid users to sign up', async () => {
     const response = await chai
@@ -89,3 +118,10 @@ it('POST /login: doesnt allow incorrect passwords', async() => {
   expect(response.status).to.equal(403);
 })
 });
+
+module.exports = {
+  validUser,
+  signUpUser,
+  loginUser,
+  getToken
+}
