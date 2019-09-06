@@ -1,6 +1,6 @@
 process.env.ENV = 'test';
 process.env.JWT_TOKEN = 'fahjkafsigtokentokentoken';
-
+process.env.JWT_SECRET = 'secretSauce';
 const mocha = require('mocha');
 const chai = require('chai');
 const chaiHttp = require('chai-http');

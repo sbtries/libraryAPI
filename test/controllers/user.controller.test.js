@@ -15,6 +15,7 @@ const signUpUser = async (user=validUser) => {
     .request(app)
     .post("/user/sign-up")
     .send(user)
+    console.log(user)
 }
 
 const loginUser = async (user=validUser) => {

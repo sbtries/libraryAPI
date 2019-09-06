@@ -8,7 +8,8 @@ const Book = require('../../src/models/Book');
 
 describe('book.controller.js', () => {
   before(async function() {
-    const response = await signUpUser();
+    const response = await signUpUser(validUser);
+    console.log(response.body)
     this.token = await getToken();
     this.user = jwt.verify(this.token, process.env.JWT_SECRET);
   });
