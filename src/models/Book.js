@@ -14,7 +14,7 @@ const bookSchema = Schema(
       type: String,
       required: true
     },
-    availability: {
+    available: {
       type: Boolean, 
       default: true
     },
@@ -24,7 +24,7 @@ const bookSchema = Schema(
         required: false,
     }
   },
-  
+
   {
     timestamps: true,
     toJSON: {

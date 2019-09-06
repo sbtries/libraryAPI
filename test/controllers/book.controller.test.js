@@ -7,11 +7,10 @@ const { app } = require('../../src/server');
 const Book = require('../../src/models/Book');
 
 describe('book.controller.js', () => {
-  // before(async function() {
-    
-  //   this.token = await getToken();
-  //   this.user = jwt.verify(this.token, process.env.JWT_SECRET);
-  // });
+  before(async function() {
+    this.token = await getToken();
+    this.user = jwt.verify(this.token, process.env.JWT_SECRET);
+  });
 
   it('POST /book: create a book record', async () => {
     const response = await chai
@@ -64,7 +63,8 @@ describe('book.controller.js', () => {
     .patch(`/book/${a_book._id}`)
     .set("Authorization", `Bearer ${this.token}`)
     .send({
-      user: this.user
+      user: this.user,
+      available: false
     });
     expect(response.status).to.eq(200); 
     expect(res.body.user).to.eq("testUser");
@@ -77,7 +77,8 @@ describe('book.controller.js', () => {
     .patch(`/book/${a_book._id}`)
     .set("Authorization", `Bearer ${this.token}`)
     .send({
-      user: 'differentUser'
+      user: 'differentUser',
+      available: false
     });
     expect(response.status).to.eq(401); 
   })
@@ -87,7 +88,8 @@ describe('book.controller.js', () => {
     .request(app)
     .patch(`/book/${a_book._id}`)
     .send({
-      user: 'differentUser'
+      user: 'anotherUser',
+      available: false
     });
     expect(response.status).to.eq(401); 
   })
@@ -99,9 +101,9 @@ describe('book.controller.js', () => {
     .patch(`/book/${a_book._id}`)
     .set("Authorization", `Bearer ${this.token}`)
     .send({
-
+      user: 'none',
+      available: true
     });
     expect(response.status).to.eq(401); 
   })
-  it('')
 });
