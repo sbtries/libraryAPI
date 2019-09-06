@@ -62,18 +62,38 @@ describe('book.controller.js', () => {
     const response = await chai
     .request(app)
     .patch(`/book/${a_book._id}`)
+    .set("Authorization", `Bearer ${this.token}`)
     .send({
       user: this.user
     });
-    expect(response.status).to.eq(200);
+    expect(response.status).to.eq(200); 
+    expect(res.body.user).to.eq("testUser");
+
   })
   it('PATCH /book/:id: does not allow checked out books to be checked out', async function (){
-
+    const a_book = await Book.findOne({title: 'blargleflargle'});
+    const response = await chai
+    .request(app)
+    .patch(`/book/${a_book._id}`)
+    .set("Authorization", `Bearer ${this.token}`)
+    .send({
+      user: 'differentUser'
+    });
+    expect(response.status).to.eq(401); 
   })
   it('PATCH /book/:id: does not allow nonusers to check out books', async function(){
+    const a_book = await Book.findOne({title: 'blargleflargle'});
+    const response = await chai
+    .request(app)
+    .patch(`/book/${a_book._id}`)
+    .send({
+      user: 'differentUser'
+    });
+    expect(response.status).to.eq(401); 
+  })
+  
+  it('PATCH /book/:id: returns book a user', async function(){
 
   })
-  it('PATCH /book/:id: returns book to a user', async function(){
-    
-  })
+  it('')
 });
