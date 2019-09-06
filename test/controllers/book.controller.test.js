@@ -8,10 +8,11 @@ const Book = require('../../src/models/Book');
 
 describe('book.controller.js', () => {
   before(async function() {
-    const response = await signUpUser(validUser);
-    console.log(response.body)
+    // const response = await signUpUser();
+    // console.log(response.body)
     this.token = await getToken();
-    this.user = jwt.verify(this.token, process.env.JWT_SECRET);
+    console.log(this.token)
+    this.user = jwt.verify(this.token, process.env.JWT_TOKEN);
   });
 
   it('POST /book: create a book record', async () => {

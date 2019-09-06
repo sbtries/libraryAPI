@@ -7,15 +7,15 @@ const { app } = require('../../src/server');
 const validUser = {
   username: "testUser",
   password: "password123",
-  passwordConfirm: "password123"
+  passwordCheck: "password123"
 }
 
 const signUpUser = async (user=validUser) => {
-  return await chai
-    .request(app)
+  const response = await chai
+  .request(app)
     .post("/user/sign-up")
     .send(user)
-    console.log(user)
+    console.log(response.body)
 }
 
 const loginUser = async (user=validUser) => {
