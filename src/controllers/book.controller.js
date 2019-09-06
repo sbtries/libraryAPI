@@ -44,5 +44,15 @@ controller.delete('/:_id', async (req, res) => {
     await book.remove();
     res.send(book);
 })
+
+//CHECKOUTS
+controller.patch('/:_id', async (req, res) => {
+    const book = await Book.findOne({ _id: req.params._id });
+    if(!book) return res.sendStatus(404);
+    book.set(req.body)
+    await book.save();
+    res.send(book);
+})
+
 })
 module.exports = controller;

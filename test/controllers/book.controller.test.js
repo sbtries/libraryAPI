@@ -52,13 +52,6 @@ describe('book.controller.js', () => {
     expect(response.body).to.be.a('object');
   });
 
-  it('DELETE /book/:_id: delete a book by its id', async () => {
-    const a_book = await Book.findOne({title: 'blargleflargle'});
-    const response = await chai.request(app).delete(`/book/${a_book._id}`);
-    expect(response.status).to.eq(200);
-    expect(response.body).to.be.a('object');
-  });
-
   it('PATCH /book/:_id: checks out a book to a user', async function () {
     const a_book = await Book.findOne({title: 'blargleflargle'});
     const response = await chai
@@ -104,9 +97,18 @@ describe('book.controller.js', () => {
     .patch(`/book/${a_book._id}`)
     .set("Authorization", `Bearer ${this.token}`)
     .send({
-      user: 'none',
+      user: null,
       available: true
     });
-    expect(response.status).to.eq(401); 
+    expect(response.status).to.eq(200); 
   })
+
+  it('DELETE /book/:_id: delete a book by its id', async () => {
+    const a_book = await Book.findOne({title: 'blargleflargle'});
+    const response = await chai.request(app).delete(`/book/${a_book._id}`);
+    expect(response.status).to.eq(200);
+    expect(response.body).to.be.a('object');
+  });
+
+
 });
