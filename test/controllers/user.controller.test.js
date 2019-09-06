@@ -13,14 +13,14 @@ const validUser = {
 const signUpUser = async (user=validUser) => {
   return await chai
     .request(app)
-    .post("/auth/sign-up")
+    .post("/user/signup")
     .send(user)
 }
 
 const loginUser = async (user=validUser) => {
   return await chai
     .request(app)
-    .post("/auth/login")
+    .post("/user/login")
     .send({
       ...user,
       passwordConfirm: undefined

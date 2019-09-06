@@ -2,6 +2,7 @@ const { AsyncRouter } = require('express-async-router');
 const { check, validationResult } = require('express-validator');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const jwtMiddleware = require("../middleware/jwt.middleware");
 
 const Book = require('../models/Book');
 
