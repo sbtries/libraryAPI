@@ -5,13 +5,15 @@
   "main": "index.js",
   "scripts": {
     "tests": "nyc --reporter=html --reporter=text mocha ./test/**/*.test.js --require ./test/test-helper.js --timeout=10000 --exit",
-    "test": "mocha --require ./test/test-helper.js --timeout=10000 --exit"
+    "test": "mocha --require ./test/test-helper.js --timeout=10000 --exit",
+    "coveralls": "nyc npm test && nyc report --reporter=text-lcov | coveralls"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^3.0.6",
     "cors": "^2.8.5",
+    "coveralls": "^3.0.6",
     "express": "^4.17.1",
     "express-async-router": "^0.1.15",
     "express-validator": "^6.2.0",
