@@ -9,7 +9,7 @@ const Book = require('../models/Book');
 const controller = AsyncRouter();
 
 //create
-controller.post('/', async (req, res) => {
+controller.post('/', jwtMiddleware, async (req, res) => {
     const book = new Book(req.body);
     await book.save();
     res.status(201).send(book);
@@ -27,9 +27,10 @@ controller.get('/:_id', async (req, res) => {
     const book = await Book.findOne({ _id: req.params._id });
     if(!book) return res.sendStatus(404);
     res.send(book);
+})
 
 //update
-controller.patch('/:_id', async (req, res) => {
+controller.patch('/:_id', jwtMiddleware, async (req, res) => {
     const book = await Book.findOne({ _id: req.params._id });
     if(!book) return res.sendStatus(404);
     book.set(req.body)
@@ -38,7 +39,7 @@ controller.patch('/:_id', async (req, res) => {
 })
 
 //delete
-controller.delete('/:_id', async (req, res) => {
+controller.delete('/:_id', jwtMiddleware, async (req, res) => {
     const book = await Book.findOne({ _id: req.params._id });
     if(!book) return res.sendStatus(404);
     await book.remove();
@@ -46,7 +47,7 @@ controller.delete('/:_id', async (req, res) => {
 })
 
 //CHECKOUTS
-controller.patch('/:_id', async (req, res) => {
+controller.patch('/:_id', jwtMiddleware, async (req, res) => {
     const book = await Book.findOne({ _id: req.params._id });
     if(!book) return res.sendStatus(404);
     book.set(req.body)
@@ -54,5 +55,6 @@ controller.patch('/:_id', async (req, res) => {
     res.send(book);
 })
 
-})
+
+
 module.exports = controller;

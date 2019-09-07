@@ -6,23 +6,32 @@ const { getToken, signUpUser, validUser } = require("./user.controller.test");
 const { app } = require('../../src/server');
 const Book = require('../../src/models/Book');
 
+
+const validBook = {
+  title: 'moo in the field of green',
+  author: 'lyra, moo'
+};
+
+const createBook = async (book = validBook, token) => {
+  const response = await chai
+  .request(app)
+  .post('/book')
+  .send(book)
+  .set("Authorization", `Bearer ${token}`)
+};
+
 describe('book.controller.js', () => {
   before(async function() {
-    // const response = await signUpUser();
-    // console.log(response.body)
+    const response = await signUpUser();
     this.token = await getToken();
-    console.log(this.token)
     this.user = jwt.verify(this.token, process.env.JWT_TOKEN);
+  });
+  afterEach(async () => {
+    await Book.deleteMany({})
   });
 
   it('POST /book: create a book record', async () => {
-    const response = await chai
-      .request(app)
-      .post('/book')
-      .send({
-        title: 'moo in the field of green',
-        author: 'lyra, moo'
-      });
+    const response = await createBook(validBook, this.token)
     expect(response.status).to.eq(201);
     expect(response.body).to.be.a('object');
   });
@@ -48,6 +57,7 @@ describe('book.controller.js', () => {
       .send({
         title: 'blargleflargle'
       });
+
     expect(response.status).to.eq(200);
     expect(response.body).to.be.a('object');
   });

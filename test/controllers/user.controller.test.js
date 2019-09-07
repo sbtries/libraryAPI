@@ -35,6 +35,10 @@ const getToken = async (user=validUser) => {
 
 
 describe('user.controller.js', () => {
+  afterEach(async()=> {
+    await User.deleteMany({});
+  });
+
   it('POST /signup: allows valid users to sign up', async () => {
     const response = await chai
       .request(app)
