@@ -6,6 +6,18 @@ const { getToken, signUpUser, validUser } = require('./user.controller.test');
 const { app } = require('../../src/server');
 const Book = require('../../src/models/Book');
 
+const createBook = async (user, token) => {
+  return await chai 
+  .request(app)
+  .post('/book')
+  .send({
+    title: 'moo in the field of green',
+    author: 'lyra, moo',
+    user: user,
+  })
+  .set('Authorization', `Bearer ${token}`);
+}
+
 describe('book.controller.js', () => {
   before(async function() {
     this.token = await getToken();
@@ -13,16 +25,7 @@ describe('book.controller.js', () => {
   });
 
   it('POST /book: create a book record', async function() {
-    const response = await chai
-      .request(app)
-      .post('/book')
-      .send({
-        title: 'moo in the field of green',
-        author: 'lyra, moo',
-        user: this.user._id
-      })
-      .set('Authorization', `Bearer ${this.token}`);
-
+    const response = await createBook(this.user, this.token )
     expect(response.status).to.eq(201);
     expect(response.body).to.be.a('object');
   });
