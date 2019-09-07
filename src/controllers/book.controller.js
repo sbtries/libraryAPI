@@ -47,9 +47,10 @@ controller.delete('/:_id', jwtMiddleware, async (req, res) => {
 })
 
 //CHECKOUTS
-controller.patch('/:_id', jwtMiddleware, async (req, res) => {
+controller.patch('/checkout/:_id', jwtMiddleware, async (req, res) => {
     const book = await Book.findOne({ _id: req.params._id });
     if(!book) return res.sendStatus(404);
+    if(book.available != true) return res.sendStatus(401);
     book.set(req.body)
     await book.save();
     res.send(book);

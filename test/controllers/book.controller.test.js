@@ -22,6 +22,9 @@ describe('book.controller.js', () => {
   before(async function() {
     this.token = await getToken();
     this.user = jwt.verify(this.token, process.env.JWT_SECRET);
+    console.log(this.user)
+    this.otherToken = await getToken();
+    this.otherUser = jwt.verify(this.otherToken, process.env.JWT_SECRET);
   });
 
   it('POST /book: create a book record', async function() {
@@ -43,40 +46,41 @@ describe('book.controller.js', () => {
     expect(response.body).to.be.a('object');
   });
 
-  it('PATCH /book/:_id: update a book by its id', async () => {
+  it('PATCH /book/:_id: update a book by its id', async function () {
     const a_book = await Book.findOne({ title: 'moo in the field of green' });
     const response = await chai
       .request(app)
       .patch(`/book/${a_book._id}`)
+      .set("Authorization", `Bearer ${this.token}`)
       .send({
         title: 'blargleflargle'
       });
-
     expect(response.status).to.eq(200);
     expect(response.body).to.be.a('object');
   });
-
-  it('PATCH /book/:_id: checks out a book to a user', async function() {
+  it('PATCH /checkout/book/:_id: checks out a book to a user', async function() {
     const a_book = await Book.findOne({ title: 'blargleflargle' });
     const response = await chai
       .request(app)
-      .patch(`/book/${a_book._id}`)
+      .patch(`/book/checkout/${a_book._id}`)
       .set('Authorization', `Bearer ${this.token}`)
       .send({
         user: this.user,
         available: false
       });
     expect(response.status).to.eq(200);
-    expect(res.body.user).to.eq('testUser');
+    expect(response.body.user).to.eq(this.user._id);
+    expect(response.body.available).to.eq(false)
   });
+
   it('PATCH /book/:id: does not allow checked out books to be checked out', async function() {
     const a_book = await Book.findOne({ title: 'blargleflargle' });
     const response = await chai
       .request(app)
-      .patch(`/book/${a_book._id}`)
-      .set('Authorization', `Bearer ${this.token}`)
+      .patch(`/book/checkout/${a_book._id}`)
+      .set('Authorization', `Bearer ${this.otherToken}`)
       .send({
-        user: 'differentUser',
+        user: this.otherUser,
         available: false
       });
     expect(response.status).to.eq(401);
@@ -108,7 +112,10 @@ describe('book.controller.js', () => {
 
   it('DELETE /book/:_id: delete a book by its id', async () => {
     const a_book = await Book.findOne({ title: 'blargleflargle' });
-    const response = await chai.request(app).delete(`/book/${a_book._id}`);
+    const response = await chai
+    .request(app)
+    .delete(`/book/${a_book._id}`)
+    .set('Authorization', `Bearer ${this.token}`)
     expect(response.status).to.eq(200);
     expect(response.body).to.be.a('object');
   });
