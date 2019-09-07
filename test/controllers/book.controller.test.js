@@ -6,29 +6,23 @@ const { getToken, signUpUser, validUser } = require('./user.controller.test');
 const { app } = require('../../src/server');
 const Book = require('../../src/models/Book');
 
-// const validBook = {
-//   title: 'moo in the field of green',
-//   author: 'lyra, moo',
-//   user: user._id
-// };
-
 describe('book.controller.js', () => {
   before(async function() {
     this.token = await getToken();
     this.user = jwt.verify(this.token, process.env.JWT_SECRET);
   });
 
-  it('POST /book: create a book record', async () => {
-    const response = await createBook(
-      {
-        title: 'blargle moo',
-        author: 'wenis',
-        user: this.user,
-        available: true
-      },
-      this.token
-    );
-    console.log(response.body);
+  it('POST /book: create a book record', async function() {
+    const response = await chai
+      .request(app)
+      .post('/book')
+      .send({
+        title: 'moo in the field of green',
+        author: 'lyra, moo',
+        user: this.user._id
+      })
+      .set('Authorization', `Bearer ${this.token}`);
+
     expect(response.status).to.eq(201);
     expect(response.body).to.be.a('object');
   });

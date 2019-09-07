@@ -1,3 +1,4 @@
+process.env.JWT_SECRET = 'secretSauce';
 const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
@@ -14,7 +15,7 @@ app.use(express.json());
 if (process.env.ENV !== 'test') this.app.use(morgan('tiny'));
 
 app.use('/user', UserController);
-app.use('/book', BookController )
+app.use('/book', BookController);
 
 app.get('/', (req, res) => {
   res.send('hello, CRUEL WORLD').status(200);

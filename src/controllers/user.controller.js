@@ -66,7 +66,7 @@ controller.post('/login', [...loginValidators], async (req, res) => {
   const correctPassword = bcrypt.compareSync(password, user.password);
   if (!correctPassword) return res.sendStatus(403);
 
-  const token = jwt.sign(sanitizeUser(user), process.env.JWT_TOKEN, {
+  const token = jwt.sign(sanitizeUser(user), process.env.JWT_SECRET, {
     expiresIn: '7 days'
   });
   res.status(200).send({ token });
